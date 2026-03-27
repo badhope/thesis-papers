@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>核武器模拟器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>☢️ 核武器模拟器</h1>
+            <p class="warning">⚠️ 本模拟器仅供教育和研究目的使用，结果基于公开模型估算</p>
+        </header>
+
+        <main>
+            <div class="control-panel">
+                <div class="control-section">
+                    <h2>核弹参数设置</h2>
+                    <div class="control-group">
+                        <label for="weaponType">武器类型：</label>
+                        <select id="weaponType">
+                            <option value="littleBoy">小男孩 (15kt - 广岛 1945)</option>
+                            <option value="fatMan">胖子 (21kt - 长崎 1945)</option>
+                            <option value="w76">W76 (100kt - 美国)</option>
+                            <option value="trident">三叉戟II (100kt - 美国)</option>
+                            <option value="w87">W87 (300kt - 美国)</option>
+                            <option value="minuteman">民兵III (300kt - 美国)</option>
+                            <option value="df41">东风-41 (300kt - 中国)</option>
+                            <option value="bulava">布拉瓦 (150kt - 俄罗斯)</option>
+                            <option value="b83">B83 (1.2Mt - 美国最大现役)</option>
+                            <option value="tsar">沙皇炸弹 (50Mt - 苏联)</option>
+                            <option value="custom">自定义当量</option>
+                        </select>
+                    </div>
+                    <div class="control-group" id="customYieldGroup" style="display: none;">
+                        <label for="customYield">当量 (kt)：</label>
+                        <input type="number" id="customYield" min="1" max="100000" value="100">
+                    </div>
+                    <div class="control-group">
+                        <label for="burstHeight">爆炸高度：</label>
+                        <select id="burstHeight">
+                            <option value="surface">地面爆炸 (最大辐射)</option>
+                            <option value="air" selected>空中爆炸 (最佳毁伤)</option>
+                            <option value="high">高空爆炸 (最大EMP)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-section">
+                    <h2>目标选择</h2>
+                    <div class="control-group">
+                        <label for="citySelect">选择城市：</label>
+                        <select id="citySelect">
+                            <option value="">-- 请选择城市 --</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="searchCity">搜索城市：</label>
+                        <input type="text" id="searchCity" placeholder="输入城市名称...">
+                    </div>
+                    <p class="hint">或直接在地图上点击目标位置</p>
+                </div>
+
+                <div class="control-section">
+                    <h2>人口参数</h2>
+                    <div class="control-group">
+                        <label for="population">人口密度 (人/km²)：</label>
+                        <input type="number" id="population" min="1" max="100000" value="5000">
+                    </div>
+                    <div class="control-group">
+                        <label for="timeOfDay">时间段：</label>
+                        <select id="timeOfDay">
+                            <option value="night">夜间 (人口分散)</option>
+                            <option value="day" selected>白天 (人口集中)</option>
+                            <option value="rush">高峰时段 (人口最密)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-section" id="countryInfo" style="display: none;">
+                    <h2>国家/地区信息</h2>
+                    <div class="country-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">城市化率:</span>
+                            <span class="stat-value" id="statUrbanization">-</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">医疗能力:</span>
+                            <span class="stat-value" id="statMedical">-</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">避难设施:</span>
+                            <span class="stat-value" id="statShelter">-</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">建筑类型:</span>
+                            <span class="stat-value" id="statBuilding">-</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">人均GDP:</span>
+                            <span class="stat-value" id="statGDP">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="simulateBtn" class="simulate-btn">💥 开始模拟</button>
+            </div>
+
+            <div class="map-container">
+                <div id="map">
+                    <svg id="worldMap" viewBox="0 0 1000 500"></svg>
+                    <div id="explosionMarker" class="explosion-marker"></div>
+                </div>
+                <div class="map-controls">
+                    <button id="zoomIn" title="放大">+</button>
+                    <button id="zoomOut" title="缩小">-</button>
+                    <button id="resetView" title="重置视图">⟲</button>
+                </div>
+                <div class="map-legend">
+                    <div class="legend-item"><span class="legend-color" style="background:#ff0000"></span>火球</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#ff4500"></span>重度破坏</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#ff8c00"></span>中度破坏</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#ffd700"></span>轻度破坏</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#ff6347"></span>热辐射</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#9400d3"></span>辐射</div>
+                    <div class="legend-item"><span class="legend-color" style="background:#00bfff"></span>EMP</div>
+                </div>
+            </div>
+
+            <div class="results-panel" id="resultsPanel">
+                <h2>📊 模拟结果</h2>
+                
+                <div class="target-info" id="targetInfo">
+                    <span id="targetName">-</span>
+                    <span id="targetCoords">-</span>
+                </div>
+
+                <div class="results-grid">
+                    <div class="result-card">
+                        <h3>火球半径</h3>
+                        <div class="value" id="fireballRadius">-</div>
+                        <div class="unit">km</div>
+                    </div>
+                    <div class="result-card">
+                        <h3>重度破坏半径</h3>
+                        <div class="value" id="heavyBlastRadius">-</div>
+                        <div class="unit">km</div>
+                    </div>
+                    <div class="result-card">
+                        <h3>中度破坏半径</h3>
+                        <div class="value" id="moderateBlastRadius">-</div>
+                        <div class="unit">km</div>
+                    </div>
+                    <div class="result-card">
+                        <h3>热辐射半径</h3>
+                        <div class="value" id="thermalRadius">-</div>
+                        <div class="unit">km</div>
+                    </div>
+                    <div class="result-card casualty">
+                        <h3>💀 死亡人数估计</h3>
+                        <div class="value" id="deaths">-</div>
+                        <div class="unit">人</div>
+                    </div>
+                    <div class="result-card injury">
+                        <h3>🤕 受伤人数估计</h3>
+                        <div class="value" id="injuries">-</div>
+                        <div class="unit">人</div>
+                    </div>
+                </div>
+
+                <div class="additional-stats">
+                    <div class="stat-box">
+                        <h4>影响参数</h4>
+                        <div class="stat-row">
+                            <span>有效人口密度:</span>
+                            <span id="effectiveDensity">-</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>建筑防护系数:</span>
+                            <span id="buildingFactor">-</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>避难所系数:</span>
+                            <span id="shelterFactor">-</span>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <h4>长期影响</h4>
+                        <div class="stat-row">
+                            <span>经济损估计:</span>
+                            <span id="economicLoss">-</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>恢复时间:</span>
+                            <span id="recoveryTime">-</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>辐射落尘面积:</span>
+                            <span id="falloutArea">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detailed-results">
+                    <h3>详细影响区域</h3>
+                    <table id="impactTable">
+                        <thead>
+                            <tr>
+                                <th>影响类型</th>
+                                <th>半径 (km)</th>
+                                <th>面积 (km²)</th>
+                                <th>影响描述</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>⚠️ 本模拟器基于公开的核武器效应模型（NUKEMAP、美国能源部资料），结果仅供参考</p>
+            <p>模型考虑因素：建筑类型、医疗能力、避难设施、人口密度、时间段、气候等</p>
+        </footer>
+    </div>
+
+    <script src="world-map-data.js"></script>
+    <script src="country-data.js"></script>
+    <script src="cities.js"></script>
+    <script src="nuclear.js"></script>
+    <script src="map.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
