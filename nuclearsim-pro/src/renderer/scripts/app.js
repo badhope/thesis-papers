@@ -875,3 +875,43 @@ function showLoading(show) {
     const loading = document.getElementById('loading');
     loading.style.display = show ? 'flex' : 'none';
 }
+
+function updateCountryInfo(countryData, city) {
+    const infoPanel = document.getElementById('countryInfo');
+    if (!infoPanel) return;
+    
+    if (countryData) {
+        infoPanel.innerHTML = `
+            <div class="country-info">
+                <h4>${city?.name || '目标位置'}</h4>
+                <p>人口密度: ${countryData.populationDensity || '--'} 人/km²</p>
+                <p>医疗能力: ${((countryData.medicalCapacity || 0.5) * 100).toFixed(0)}%</p>
+            </div>
+        `;
+    }
+}
+
+window.startSimulation = startSimulation;
+window.searchCity = searchCity;
+window.loadEvent = loadEvent;
+window.loadStory = loadStory;
+window.openArticle = openArticle;
+window.startTutorial = startTutorial;
+window.startQuiz = startQuiz;
+window.exportData = exportData;
+window.importData = importData;
+window.clearData = clearData;
+window.checkForUpdates = checkForUpdates;
+window.closeResults = closeResults;
+window.exportPDF = exportPDF;
+window.exportImage = exportImage;
+window.saveSimulation = saveSimulation;
+window.setTool = setTool;
+window.toggleMilitaryBases = toggleMilitaryBases;
+window.toggleLayers = toggleLayers;
+
+window.App = {
+    updateCountryInfo,
+    showNotification,
+    showLoading
+};

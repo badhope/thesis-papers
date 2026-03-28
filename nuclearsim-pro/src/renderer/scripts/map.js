@@ -316,6 +316,9 @@ const MapHandler = {
         if (name) {
             this.updateCoordDisplay(lat, lng, name);
         }
+        if (this.map) {
+            this.map.flyTo([lat, lng], 10, { duration: 1.5 });
+        }
     },
 
     selectCity(city) {
