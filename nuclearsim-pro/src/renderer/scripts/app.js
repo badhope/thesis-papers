@@ -1049,3 +1049,122 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 window.downloadOfflineMap = downloadOfflineMap;
 window.clearMapCache = clearMapCache;
+
+// ============ 新功能集成 ============
+
+/**
+ * 加载历史事件
+ */
+function loadEvent(eventId) {
+    if (!window.HistoricalEvents) {
+        showNotification('历史事件模块未加载', 'error');
+        return;
+    }
+    
+    const replayData = window.HistoricalEvents.replayEvent(eventId);
+    if (!replayData) {
+        showNotification('未找到该事件', 'error');
+        return;
+    }
+    
+    // 定位到历史事件地点
+    if (mapHandler && replayData.location) {
+        mapHandler.goToLocation(
+            replayData.location.lat,
+            replayData.location.lng,
+            replayData.location.name
+        );
+    }
+    
+    // 设置武器
+    const weaponSelect = document.getElementById('weaponType');
+    if (weaponSelect && replayData.event.weapon) {
+        const options = weaponSelect.options;
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].value === replayData.event.weapon) {
+                weaponSelect.selectedIndex = i;
+                break;
+            }
+        }
+    }
+    
+    // 显示事件详情
+    showEventDetails(replayData.event);
+    
+    showNotification(`已加载: ${replayData.event.name}`, 'success');
+}
+
+/**
+ * 显示事件详情
+ */
+function showEventDetails(event) {
+    const container = document.getElementById('basicResults');
+    if (!container) return;
+    
+    container.innerHTML = `
+        <div class="event-details">
+            <h4>${event.name}</h4>
+            <p class="event-date">📅 ${event.date}</p>
+            <p class="event-location">📍 ${event.location.name}</p>
+            <p class="event-yield">💥 当量: ${event.yield.toLocaleString()} kt</p>
+            <p class="event-deaths">☠️ 死亡: ${event.deaths?.toLocaleString() || '未知'}</p>
+            <div class="event-description">${event.details || event.description}</div>
+            <button class="action-btn" onclick="startSimulation()">▶ 模拟此事件</button>
+        </div>
+    `;
+    
+    document.getElementById('resultsPanel').style.display = 'flex';
+}
+
+/**
+ * 打开故事
+ */
+function loadStory(storyId) {
+    showNotification('交互式故事功能开发中...', 'info');
+}
+
+/**
+ * 打开文章
+ */
+function openArticle(articleId) {
+    showNotification('知识库功能开发中...', 'info');
+}
+
+/**
+ * 开始教程
+ */
+function startTutorial(tutorialId) {
+    showNotification('教程功能开发中...', 'info');
+}
+
+/**
+ * 开始测验
+ */
+function startQuiz() {
+    showNotification('测验功能开发中...', 'info');
+}
+
+/**
+ * 语言切换
+ */
+function changeLanguage(lang) {
+    if (window.I18n && window.I18n.setLanguage(lang)) {
+        showNotification(`已切换到${lang === 'zh' ? '中文' : 'English'}`, 'success');
+    }
+}
+
+// 语言设置监听
+const languageSetting = document.getElementById('languageSetting');
+if (languageSetting) {
+    languageSetting.addEventListener('change', (e) => {
+        changeLanguage(e.target.value);
+    });
+}
+
+// 导出新功能
+window.loadEvent = loadEvent;
+window.loadStory = loadStory;
+window.openArticle = openArticle;
+window.startTutorial = startTutorial;
+window.startQuiz = startQuiz;
+window.changeLanguage = changeLanguage;
