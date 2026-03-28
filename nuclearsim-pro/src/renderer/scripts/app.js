@@ -257,6 +257,18 @@ async function startSimulation() {
             timeOfDay
         );
         
+        const economicImpact = window.NuclearCalculator.calculateGDPLoss(results, casualties, null);
+        const infrastructure = window.NuclearCalculator.calculateInfrastructureImpact(results, populationDensity, null);
+        const environment = window.NuclearCalculator.calculateEnvironmentImpact(results, null);
+        const health = window.NuclearCalculator.calculateHealthImpact(results, casualties, null);
+        const recoveryTime = window.NuclearCalculator.estimateRecoveryTime(results, null);
+        
+        casualties.economicImpact = economicImpact;
+        casualties.infrastructure = infrastructure;
+        casualties.environment = environment;
+        casualties.health = health;
+        casualties.recoveryTime = recoveryTime;
+        
         currentResults = {
             ...results,
             casualties,
@@ -292,8 +304,10 @@ function displayResults(results) {
     displayHealthResults(results);
     displayTimelineResults(results);
     
-    if (window.ChartsManager) {
-        window.ChartsManager.renderAllCharts(results);
+    if (window.ChartManager) {
+        window.ChartManager.init();
+        window.ChartManager.renderCasualtyPieChart(results.casualties);
+        window.ChartManager.renderRadiusBarChart(results);
     }
 }
 
@@ -360,16 +374,20 @@ function displayEconomicResults(results) {
     container.innerHTML = `
         <div class="result-grid">
             <div class="result-item">
-                <div class="result-label">💰 GDP损失</div>
-                <div class="result-value">$${(economicImpact.gdpLoss || 0).toLocaleString()}</div>
+                <div class="result-label">💰 直接损失</div>
+                <div class="result-value">$${(economicImpact.direct || 0).toLocaleString()}</div>
             </div>
             <div class="result-item">
-                <div class="result-label">🏗️ 建筑损失</div>
-                <div class="result-value">${(economicImpact.buildingsDestroyed || 0).toLocaleString()} 栋</div>
+                <div class="result-label">📉 间接损失</div>
+                <div class="result-value">$${(economicImpact.indirect || 0).toLocaleString()}</div>
+            </div>
+            <div class="result-item">
+                <div class="result-label">📊 总损失</div>
+                <div class="result-value">$${(economicImpact.total || 0).toLocaleString()}</div>
             </div>
             <div class="result-item">
                 <div class="result-label">⏱️ 恢复时间</div>
-                <div class="result-value">${economicImpact.recoveryTime || '--'} 年</div>
+                <div class="result-value">${results.casualties.recoveryTime || '--'} 年</div>
             </div>
         </div>
     `;
@@ -423,6 +441,10 @@ function displayEnvironmentResults(results) {
                 <div class="result-label">💨 碳排放</div>
                 <div class="result-value">${(env.carbonEmission || 0).toLocaleString()} 吨</div>
             </div>
+            <div class="result-item">
+                <div class="result-label">💧 水源影响</div>
+                <div class="result-value">${(env.waterAffected || 0).toLocaleString()} km²</div>
+            </div>
         </div>
     `;
 }
@@ -448,8 +470,12 @@ function displayHealthResults(results) {
                 <div class="result-value">${(health.trauma || 0).toLocaleString()}</div>
             </div>
             <div class="result-item">
-                <div class="result-label">⚠️ 长期癌症风险</div>
-                <div class="result-value">${(health.longTermCancer || 0).toLocaleString()}</div>
+                <div class="result-label">🧠 心理创伤</div>
+                <div class="result-value">${(health.psychological || 0).toLocaleString()}</div>
+            </div>
+            <div class="result-item">
+                <div class="result-label">🏠 无家可归</div>
+                <div class="result-value">${(health.homeless || 0).toLocaleString()}</div>
             </div>
         </div>
     `;

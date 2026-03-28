@@ -44,11 +44,9 @@ const ChartManager = {
 
     initCharts() {
         const chartIds = [
-            'casualtyPieChart', 'radiusBarChart',
-            'economicBarChart', 'recoveryTimelineChart',
-            'infrastructureChart',
-            'environmentChart',
-            'healthChart', 'longTermHealthChart'
+            'basicChart',
+            'economicChart',
+            'healthChart'
         ];
         
         let successCount = 0;
@@ -97,9 +95,9 @@ const ChartManager = {
     },
 
     renderCasualtyPieChart(casualties) {
-        const chart = this.charts.casualtyPieChart;
+        const chart = this.charts.basicChart;
         if (!chart) {
-            console.warn('casualtyPieChart not initialized');
+            console.warn('basicChart not initialized');
             return;
         }
 
@@ -166,9 +164,9 @@ const ChartManager = {
     },
 
     renderRadiusBarChart(results) {
-        const chart = this.charts.radiusBarChart;
+        const chart = this.charts.basicChart;
         if (!chart) {
-            console.warn('radiusBarChart not initialized');
+            console.warn('basicChart not initialized');
             return;
         }
 
@@ -234,7 +232,7 @@ const ChartManager = {
     },
 
     renderEconomicBarChart(economicData, gdpPerCapita) {
-        const chart = this.charts.economicBarChart;
+        const chart = this.charts.economicChart;
         if (!chart) return;
 
         if (!economicData) {
@@ -301,7 +299,7 @@ const ChartManager = {
     },
 
     renderRecoveryTimelineChart(recoveryYears) {
-        const chart = this.charts.recoveryTimelineChart;
+        const chart = this.charts.economicChart;
         if (!chart) return;
 
         if (!recoveryYears || recoveryYears <= 0) {
@@ -370,7 +368,7 @@ const ChartManager = {
     },
 
     renderInfrastructureChart(infrastructure) {
-        const chart = this.charts.infrastructureChart;
+        const chart = this.charts.basicChart;
         if (!chart) return;
 
         if (!infrastructure) {
@@ -427,7 +425,7 @@ const ChartManager = {
     },
 
     renderEnvironmentChart(environment) {
-        const chart = this.charts.environmentChart;
+        const chart = this.charts.basicChart;
         if (!chart) return;
 
         if (!environment) {
@@ -559,7 +557,7 @@ const ChartManager = {
     },
 
     renderLongTermHealthChart(health) {
-        const chart = this.charts.longTermHealthChart;
+        const chart = this.charts.healthChart;
         if (!chart) return;
 
         if (!health) {
