@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' data: https: blob:; connect-src 'self' https:;">
+    <title>NuclearSim Pro</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+<body>
+    <div id="app">
+        <div class="title-bar">
+            <div class="title-bar-drag">
+                <span class="app-icon">☢️</span>
+                <span class="app-title">NuclearSim Pro</span>
+                <span class="app-version" id="appVersion"></span>
+            </div>
+            <div class="title-bar-controls">
+                <button class="title-bar-btn minimize" onclick="electronAPI.window.minimize()">─</button>
+                <button class="title-bar-btn maximize" onclick="electronAPI.window.maximize()">□</button>
+                <button class="title-bar-btn close" onclick="electronAPI.window.close()">✕</button>
+            </div>
+        </div>
+
+        <div class="main-container">
+            <aside class="sidebar">
+                <nav class="sidebar-nav">
+                    <button class="nav-item active" data-section="simulator" title="模拟器">
+                        <span class="nav-icon">💥</span>
+                        <span class="nav-label">模拟</span>
+                    </button>
+                    <button class="nav-item" data-section="events" title="事件系统">
+                        <span class="nav-icon">📜</span>
+                        <span class="nav-label">事件</span>
+                    </button>
+                    <button class="nav-item" data-section="education" title="教育模块">
+                        <span class="nav-icon">📚</span>
+                        <span class="nav-label">教育</span>
+                    </button>
+                    <button class="nav-item" data-section="data" title="数据管理">
+                        <span class="nav-icon">💾</span>
+                        <span class="nav-label">数据</span>
+                    </button>
+                    <button class="nav-item" data-section="settings" title="设置">
+                        <span class="nav-icon">⚙️</span>
+                        <span class="nav-label">设置</span>
+                    </button>
+                </nav>
+
+                <div class="sidebar-content">
+                    <div id="simulator-panel" class="panel active">
+                        <div class="panel-section">
+                            <h3>🎯 目标选择</h3>
+                            <div class="search-box">
+                                <input type="text" id="citySearch" placeholder="搜索城市..." autocomplete="off">
+                                <button class="search-btn" onclick="searchCity()">🔍</button>
+                            </div>
+                            <select id="citySelect" class="city-select">
+                                <option value="">选择城市...</option>
+                            </select>
+                            <div class="coords-display">
+                                <span>坐标: </span>
+                                <span id="coordsLat">--</span>, <span id="coordsLng">--</span>
+                            </div>
+                        </div>
+
+                        <div class="panel-section">
+                            <h3>💣 武器选择</h3>
+                            <select id="weaponType" class="weapon-select">
+                                <optgroup label="📜 历史核武器">
+                                    <option value="littleBoy">小男孩 (15kt) - 1945</option>
+                                    <option value="fatMan">胖子 (21kt) - 1945</option>
+                                    <option value="tsarBomba">沙皇炸弹 (50Mt) - 1961</option>
+                                </optgroup>
+                                <optgroup label="🇺🇸 美国">
+                                    <option value="w76">W76 (100kt)</option>
+                                    <option value="w78">W78 (335kt)</option>
+                                    <option value="w87">W87 (300kt)</option>
+                                    <option value="w88">W88 (455kt)</option>
+                                    <option value="b61">B61 (340kt)</option>
+                                    <option value="b83">B83 (1.2Mt)</option>
+                                </optgroup>
+                                <optgroup label="🇷🇺 俄罗斯">
+                                    <option value="ss18">SS-18 撒旦 (20Mt)</option>
+                                    <option value="topolM">白杨-M (800kt)</option>
+                                    <option value="sarmat">萨尔马特 (5Mt)</option>
+                                </optgroup>
+                                <optgroup label="🇨🇳 中国">
+                                    <option value="df41">东风-41 (300kt)</option>
+                                    <option value="df31ag">东风-31AG (300kt)</option>
+                                    <option value="jl2">巨浪-2 (250kt)</option>
+                                </optgroup>
+                                <optgroup label="🔬 战术核武器">
+                                    <option value="davyCrockett">大卫·克罗克特 (0.02kt)</option>
+                                    <option value="w54">W54微型弹头 (0.01kt)</option>
+                                </optgroup>
+                                <option value="custom">自定义当量...</option>
+                            </select>
+                            <div id="customYieldGroup" class="custom-yield-group" style="display: none;">
+                                <label>当量 (kt):</label>
+                                <input type="number" id="customYield" min="0.001" max="100000" step="0.001" value="100">
+                                <input type="range" id="customYieldSlider" min="0.001" max="100000" step="0.001" value="100">
+                            </div>
+                            <div id="weaponInfo" class="weapon-info" style="display: none;">
+                                <div id="weaponDescription"></div>
+                            </div>
+                        </div>
+
+                        <div class="panel-section">
+                            <h3>💥 爆炸设置</h3>
+                            <select id="burstHeight" class="burst-select">
+                                <option value="surface">地面爆炸</option>
+                                <option value="air" selected>空中爆炸</option>
+                                <option value="high">高空爆炸</option>
+                            </select>
+                        </div>
+
+                        <div class="panel-section">
+                            <h3>👥 人口设置</h3>
+                            <select id="timeOfDay" class="time-select">
+                                <option value="night">夜间</option>
+                                <option value="day" selected>白天</option>
+                                <option value="peak">高峰时段</option>
+                            </select>
+                            <div class="density-slider">
+                                <label>人口密度调整:</label>
+                                <input type="range" id="densityMultiplier" min="0.1" max="3" step="0.1" value="1">
+                                <span id="densityValue">1.0x</span>
+                            </div>
+                        </div>
+
+                        <button class="detonate-btn" onclick="startSimulation()">
+                            💥 开始模拟
+                        </button>
+                    </div>
+
+                    <div id="events-panel" class="panel">
+                        <h3>📜 历史事件</h3>
+                        <div class="event-list">
+                            <div class="event-item" onclick="loadEvent('hiroshima')">
+                                <span class="event-icon">💥</span>
+                                <div class="event-info">
+                                    <div class="event-title">广岛原子弹爆炸</div>
+                                    <div class="event-date">1945年8月6日</div>
+                                </div>
+                            </div>
+                            <div class="event-item" onclick="loadEvent('nagasaki')">
+                                <span class="event-icon">💥</span>
+                                <div class="event-info">
+                                    <div class="event-title">长崎原子弹爆炸</div>
+                                    <div class="event-date">1945年8月9日</div>
+                                </div>
+                            </div>
+                            <div class="event-item" onclick="loadEvent('cuban')">
+                                <span class="event-icon">⚠️</span>
+                                <div class="event-info">
+                                    <div class="event-title">古巴导弹危机</div>
+                                    <div class="event-date">1962年10月</div>
+                                </div>
+                            </div>
+                            <div class="event-item" onclick="loadEvent('chernobyl')">
+                                <span class="event-icon">☢️</span>
+                                <div class="event-info">
+                                    <div class="event-title">切尔诺贝利事故</div>
+                                    <div class="event-date">1986年4月26日</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>🎮 交互式故事</h3>
+                        <div class="story-list">
+                            <div class="story-item" onclick="loadStory('cuban_crisis')">
+                                <span class="story-icon">🎬</span>
+                                <div class="story-info">
+                                    <div class="story-title">古巴导弹危机</div>
+                                    <div class="story-desc">人类最接近核战争的时刻</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="education-panel" class="panel">
+                        <h3>📚 知识库</h3>
+                        <div class="knowledge-list">
+                            <div class="knowledge-item" onclick="openArticle('nuclear_basics')">
+                                <span class="knowledge-icon">📖</span>
+                                <span class="knowledge-title">核武器基础原理</span>
+                            </div>
+                            <div class="knowledge-item" onclick="openArticle('effects')">
+                                <span class="knowledge-icon">📖</span>
+                                <span class="knowledge-title">核爆炸效应</span>
+                            </div>
+                            <div class="knowledge-item" onclick="openArticle('radiation')">
+                                <span class="knowledge-icon">📖</span>
+                                <span class="knowledge-title">辐射与健康</span>
+                            </div>
+                        </div>
+
+                        <h3>🎓 交互式教程</h3>
+                        <div class="tutorial-list">
+                            <div class="tutorial-item" onclick="startTutorial('intro')">
+                                <span class="tutorial-progress">0%</span>
+                                <span class="tutorial-title">核武器入门</span>
+                            </div>
+                        </div>
+
+                        <h3>📝 测验</h3>
+                        <button class="quiz-btn" onclick="startQuiz()">开始测验</button>
+                    </div>
+
+                    <div id="data-panel" class="panel">
+                        <h3>📊 历史记录</h3>
+                        <div id="simulationHistory" class="history-list">
+                            <div class="empty-state">暂无历史记录</div>
+                        </div>
+
+                        <h3>💾 数据管理</h3>
+                        <div class="data-actions">
+                            <button class="data-btn" onclick="exportData()">📤 导出数据</button>
+                            <button class="data-btn" onclick="importData()">📥 导入数据</button>
+                            <button class="data-btn danger" onclick="clearData()">🗑️ 清除数据</button>
+                        </div>
+                    </div>
+
+                    <div id="settings-panel" class="panel">
+                        <h3>⚙️ 常规设置</h3>
+                        <div class="setting-item">
+                            <label>语言</label>
+                            <select id="languageSetting">
+                                <option value="zh">简体中文</option>
+                                <option value="en">English</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label>主题</label>
+                            <select id="themeSetting">
+                                <option value="dark">深色</option>
+                                <option value="light">浅色</option>
+                            </select>
+                        </div>
+
+                        <h3>🗺️ 地图设置</h3>
+                        <div class="setting-item">
+                            <label>地图源</label>
+                            <select id="mapSource">
+                                <option value="amap">高德地图</option>
+                                <option value="geoq">GeoQ</option>
+                                <option value="offline">离线地图</option>
+                            </select>
+                        </div>
+
+                        <h3>⌨️ 快捷键</h3>
+                        <div class="shortcuts-list">
+                            <div class="shortcut-item">
+                                <span class="shortcut-key">Ctrl+N</span>
+                                <span class="shortcut-desc">新建模拟</span>
+                            </div>
+                            <div class="shortcut-item">
+                                <span class="shortcut-key">Ctrl+S</span>
+                                <span class="shortcut-desc">保存场景</span>
+                            </div>
+                            <div class="shortcut-item">
+                                <span class="shortcut-key">Ctrl+E</span>
+                                <span class="shortcut-desc">导出报告</span>
+                            </div>
+                            <div class="shortcut-item">
+                                <span class="shortcut-key">F11</span>
+                                <span class="shortcut-desc">全屏</span>
+                            </div>
+                        </div>
+
+                        <h3>🔄 更新</h3>
+                        <div class="update-section">
+                            <span id="updateStatus">检查更新中...</span>
+                            <button class="update-btn" onclick="checkForUpdates()">检查更新</button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <div id="map" class="map-container"></div>
+
+                <div id="resultsPanel" class="results-panel" style="display: none;">
+                    <div class="results-header">
+                        <h3>📊 模拟结果</h3>
+                        <button class="close-btn" onclick="closeResults()">✕</button>
+                    </div>
+                    <div class="results-tabs">
+                        <button class="tab-btn active" data-tab="basic">基础</button>
+                        <button class="tab-btn" data-tab="economic">经济</button>
+                        <button class="tab-btn" data-tab="infrastructure">设施</button>
+                        <button class="tab-btn" data-tab="environment">环境</button>
+                        <button class="tab-btn" data-tab="health">健康</button>
+                        <button class="tab-btn" data-tab="timeline">时间线</button>
+                    </div>
+                    <div class="results-content">
+                        <div id="basic-tab" class="tab-content active">
+                            <div id="basicResults"></div>
+                            <div id="basicChart" class="chart-container"></div>
+                        </div>
+                        <div id="economic-tab" class="tab-content">
+                            <div id="economicResults"></div>
+                            <div id="economicChart" class="chart-container"></div>
+                        </div>
+                        <div id="infrastructure-tab" class="tab-content">
+                            <div id="infrastructureResults"></div>
+                        </div>
+                        <div id="environment-tab" class="tab-content">
+                            <div id="environmentResults"></div>
+                        </div>
+                        <div id="health-tab" class="tab-content">
+                            <div id="healthResults"></div>
+                            <div id="healthChart" class="chart-container"></div>
+                        </div>
+                        <div id="timeline-tab" class="tab-content">
+                            <div id="timelineResults"></div>
+                        </div>
+                    </div>
+                    <div class="results-actions">
+                        <button class="action-btn" onclick="exportPDF()">📄 导出PDF</button>
+                        <button class="action-btn" onclick="exportImage()">🖼️ 保存图片</button>
+                        <button class="action-btn" onclick="saveSimulation()">💾 保存场景</button>
+                    </div>
+                </div>
+
+                <div id="mapTools" class="map-tools">
+                    <button class="tool-btn" onclick="setTool('select')" title="选择">🖱️</button>
+                    <button class="tool-btn" onclick="setTool('marker')" title="标记">📍</button>
+                    <button class="tool-btn" onclick="setTool('measure')" title="测量">📏</button>
+                    <button class="tool-btn" onclick="setTool('draw')" title="绘图">✏️</button>
+                    <div class="tool-separator"></div>
+                    <button class="tool-btn" onclick="toggleMilitaryBases()" title="军事基地">🏰</button>
+                    <button class="tool-btn" onclick="toggleLayers()" title="图层">🗺️</button>
+                </div>
+            </main>
+        </div>
+
+        <div id="notification" class="notification"></div>
+        <div id="loading" class="loading" style="display: none;">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">处理中...</div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <script src="scripts/nuclear.js"></script>
+    <script src="scripts/cities.js"></script>
+    <script src="scripts/country-data.js"></script>
+    <script src="scripts/charts.js"></script>
+    <script src="scripts/map.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
