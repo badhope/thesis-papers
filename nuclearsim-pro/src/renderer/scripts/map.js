@@ -159,22 +159,24 @@ const MapHandler = {
             return;
         }
 
-        if (!Array.isArray(window.CitiesData)) {
-            console.error('CitiesData is not an array:', typeof window.CitiesData);
+        const cities = window.CitiesData.cities || window.CitiesData;
+        
+        if (!Array.isArray(cities)) {
+            console.error('CitiesData.cities is not an array:', typeof cities);
             return;
         }
 
-        if (window.CitiesData.length === 0) {
+        if (cities.length === 0) {
             console.warn('CitiesData is empty');
             return;
         }
 
-        console.log('Creating city markers for', window.CitiesData.length, 'cities');
+        console.log('Creating city markers for', cities.length, 'cities');
 
         let markerCount = 0;
         let errorCount = 0;
 
-        window.CitiesData.forEach((city, index) => {
+        cities.forEach((city, index) => {
             try {
                 if (!city) {
                     console.warn(`City at index ${index} is null/undefined`);
@@ -233,8 +235,8 @@ const MapHandler = {
     },
 
     createMilitaryMarkers() {
-        if (!window.MilitaryBases || !Array.isArray(window.MilitaryBases)) {
-            console.warn('MilitaryBases not available');
+        if (!window.MilitaryBases || !Array.isArray(window.MilitaryBases) || window.MilitaryBases.length === 0) {
+            console.log('No military bases data available, skipping military markers');
             return;
         }
 
@@ -307,6 +309,13 @@ const MapHandler = {
     flyTo(lat, lng, zoom = 10) {
         if (!this.map) return;
         this.map.flyTo([lat, lng], zoom, { duration: 1.5 });
+    },
+
+    goToLocation(lat, lng, name) {
+        this.selectLocation(lat, lng);
+        if (name) {
+            this.updateCoordDisplay(lat, lng, name);
+        }
     },
 
     selectCity(city) {
@@ -406,8 +415,8 @@ const MapHandler = {
     },
 
     updateCoordDisplay(lat, lng, name) {
-        const latEl = document.getElementById('targetLat');
-        const lngEl = document.getElementById('targetLng');
+        const latEl = document.getElementById('coordsLat') || document.getElementById('targetLat');
+        const lngEl = document.getElementById('coordsLng') || document.getElementById('targetLng');
         const nameEl = document.getElementById('targetName');
 
         if (latEl) latEl.textContent = lat.toFixed(4);

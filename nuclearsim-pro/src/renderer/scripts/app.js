@@ -233,26 +233,28 @@ async function startSimulation() {
         const weaponType = document.getElementById('weaponType').value;
         const burstHeight = document.getElementById('burstHeight').value;
         const timeOfDay = document.getElementById('timeOfDay').value;
-        const densityMultiplier = parseFloat(document.getElementById('densityMultiplier').value);
+        const densityMultiplier = parseFloat(document.getElementById('densityMultiplier')?.value || 1);
         
         let yieldKt;
         if (weaponType === 'custom') {
-            yieldKt = parseFloat(document.getElementById('customYield').value);
+            yieldKt = parseFloat(document.getElementById('customYield')?.value || 100);
         } else if (window.NuclearCalculator && window.NuclearCalculator.weaponPresets) {
-            yieldKt = window.NuclearCalculator.weaponPresets[weaponType].yield;
+            const preset = window.NuclearCalculator.weaponPresets[weaponType];
+            yieldKt = preset ? preset.yield : 100;
         } else {
             yieldKt = 100;
         }
         
         const results = window.NuclearCalculator.calculateEffects(yieldKt, burstHeight);
         
-        const locationName = mapHandler.selectedLocationName || '自定义位置';
+        const locationName = mapHandler.selectedCity?.name || '自定义位置';
+        const populationDensity = (mapHandler.selectedCity?.density || 1000) * densityMultiplier;
+        
         const casualties = window.NuclearCalculator.estimateCasualties(
             results,
-            mapHandler.selectedCoords.lat,
-            mapHandler.selectedCoords.lng,
-            timeOfDay,
-            densityMultiplier
+            populationDensity,
+            null,
+            timeOfDay
         );
         
         currentResults = {
@@ -260,7 +262,7 @@ async function startSimulation() {
             casualties,
             location: locationName,
             coords: mapHandler.selectedCoords,
-            weapon: weaponType === 'custom' ? `自定义 (${yieldKt}kt)` : window.NuclearCalculator.weaponPresets[weaponType].name,
+            weapon: weaponType === 'custom' ? `自定义 (${yieldKt}kt)` : (window.NuclearCalculator.weaponPresets[weaponType]?.name || weaponType),
             yield: yieldKt,
             burstHeight,
             timeOfDay,
