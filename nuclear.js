@@ -1,15 +1,62 @@
 const NuclearCalculator = {
     weaponPresets: {
-        littleBoy: { yield: 15, name: '小男孩', year: 1945, country: '美国' },
-        fatMan: { yield: 21, name: '胖子', year: 1945, country: '美国' },
-        w76: { yield: 100, name: 'W76', year: 1978, country: '美国' },
-        w87: { yield: 300, name: 'W87', year: 1986, country: '美国' },
-        b83: { yield: 1200, name: 'B83', year: 1983, country: '美国' },
-        tsar: { yield: 50000, name: '沙皇炸弹', year: 1961, country: '苏联' },
-        minuteman: { yield: 300, name: '民兵III', year: 1970, country: '美国' },
-        trident: { yield: 100, name: '三叉戟II', year: 1990, country: '美国' },
-        df41: { yield: 300, name: '东风-41', year: 2019, country: '中国' },
-        bulava: { yield: 150, name: '布拉瓦', year: 2013, country: '俄罗斯' }
+        littleBoy: { yield: 15, name: '小男孩 (Little Boy)', year: 1945, country: '美国', description: '广岛原子弹，铀弹' },
+        fatMan: { yield: 21, name: '胖子 (Fat Man)', year: 1945, country: '美国', description: '长崎原子弹，钚弹' },
+        
+        w76: { yield: 100, name: 'W76', year: 1978, country: '美国', description: '三叉戟导弹弹头' },
+        w78: { yield: 335, name: 'W78', year: 1979, country: '美国', description: '民兵III导弹弹头' },
+        w87: { yield: 300, name: 'W87', year: 1986, country: '美国', description: '和平卫士导弹弹头' },
+        w88: { yield: 475, name: 'W88', year: 1989, country: '美国', description: '三叉戟II导弹弹头' },
+        b61: { yield: 50, name: 'B61', year: 1968, country: '美国', description: '战术核弹，可变当量' },
+        b83: { yield: 1200, name: 'B83', year: 1983, country: '美国', description: '美国现役最强核弹' },
+        w80: { yield: 150, name: 'W80', year: 1982, country: '美国', description: '巡航导弹弹头' },
+        
+        tsar: { yield: 50000, name: '沙皇炸弹 (Tsar Bomba)', year: 1961, country: '苏联', description: '人类史上最大核弹' },
+        rds1: { yield: 22, name: 'RDS-1', year: 1949, country: '苏联', description: '苏联第一颗原子弹' },
+        rds37: { yield: 1600, name: 'RDS-37', year: 1955, country: '苏联', description: '苏联首颗氢弹' },
+        ss18: { yield: 24000, name: 'SS-18 撒旦', year: 1974, country: '苏联', description: '洲际导弹弹头' },
+        topolM: { yield: 800, name: '白杨-M', year: 1997, country: '俄罗斯', description: '机动洲际导弹' },
+        
+        minuteman: { yield: 300, name: '民兵III (Minuteman III)', year: 1970, country: '美国', description: '陆基洲际导弹' },
+        trident: { yield: 100, name: '三叉戟II (Trident II)', year: 1990, country: '美国', description: '潜射弹道导弹' },
+        peacekeeper: { yield: 300, name: '和平卫士 (Peacekeeper)', year: 1986, country: '美国', description: '已退役洲际导弹' },
+        
+        df41: { yield: 300, name: '东风-41', year: 2019, country: '中国', description: '洲际弹道导弹' },
+        df31: { yield: 150, name: '东风-31AG', year: 2017, country: '中国', description: '机动洲际导弹' },
+        df5: { yield: 500, name: '东风-5B', year: 2015, country: '中国', description: '井基洲际导弹' },
+        jl2: { yield: 250, name: '巨浪-2', year: 2015, country: '中国', description: '潜射弹道导弹' },
+        q5: { yield: 20, name: '强-5核弹', year: 1972, country: '中国', description: '战术核航弹' },
+        
+        bulava: { yield: 150, name: '布拉瓦 (Bulava)', year: 2013, country: '俄罗斯', description: '潜射弹道导弹' },
+        yars: { yield: 500, name: '亚尔斯 (Yars)', year: 2010, country: '俄罗斯', description: '机动洲际导弹' },
+        sarmat: { yield: 5000, name: '萨尔马特 (Sarmat)', year: 2022, country: '俄罗斯', description: '重型洲际导弹' },
+        
+        blueDanube: { yield: 15, name: '蓝多瑙河', year: 1952, country: '英国', description: '英国第一颗原子弹' },
+        we177: { yield: 450, name: 'WE.177', year: 1966, country: '英国', description: '战术核弹' },
+        tridentUK: { yield: 100, name: '三叉戟(英)', year: 1994, country: '英国', description: '英国核威慑力量' },
+        
+        an52: { yield: 60, name: 'AN-52', year: 1974, country: '法国', description: '战术核弹' },
+        tn75: { yield: 100, name: 'TN-75', year: 1997, country: '法国', description: '潜射弹头' },
+        
+        agni5: { yield: 250, name: '烈火-5', year: 2018, country: '印度', description: '洲际弹道导弹' },
+        agni3: { yield: 60, name: '烈火-3', year: 2011, country: '印度', description: '中程弹道导弹' },
+        
+        ghauri: { yield: 30, name: '高里', year: 1998, country: '巴基斯坦', description: '中程弹道导弹' },
+        shaheen2: { yield: 35, name: '沙欣-2', year: 2004, country: '巴基斯坦', description: '中程弹道导弹' },
+        
+        hwasong15: { yield: 150, name: '火星-15', year: 2017, country: '朝鲜', description: '洲际弹道导弹' },
+        hwasong17: { yield: 250, name: '火星-17', year: 2022, country: '朝鲜', description: '洲际弹道导弹' },
+        
+        davyCrockett: { yield: 0.02, name: '大卫·克罗克特', year: 1961, country: '美国', description: '最小核武器，20吨当量' },
+        sADM: { yield: 0.01, name: 'SADM', year: 1964, country: '美国', description: '背包核弹，10吨当量' },
+        w54: { yield: 0.001, name: 'W54', year: 1961, country: '美国', description: '微型核弹头，1吨当量' },
+        
+        castleBravo: { yield: 15000, name: '城堡行动-喝彩', year: 1954, country: '美国', description: '美国最大核试验' },
+        ivyMike: { yield: 10400, name: '常春藤-麦克', year: 1952, country: '美国', description: '首颗氢弹试验' },
+        operationGrapple: { yield: 3000, name: '格斗行动', year: 1957, country: '英国', description: '英国氢弹试验' },
+        canopus: { yield: 2600, name: '老人星', year: 1968, country: '法国', description: '法国氢弹试验' },
+        
+        custom: { yield: 100, name: '自定义武器', year: 2024, country: '自定义', description: '用户自定义当量' }
     },
 
     buildingTypes: {
@@ -328,6 +375,129 @@ const NuclearCalculator = {
             return '$' + (num / 1000000).toFixed(2) + 'M';
         }
         return '$' + num.toLocaleString();
+    },
+
+    calculateInfrastructureImpact(results, populationDensity, countryData = null) {
+        const affectedArea = results.areas.moderateBlast;
+        const urbanizationRate = countryData?.urbanizationRate || 50;
+        const urbanFactor = urbanizationRate / 100;
+        
+        const hospitalsPerKm2 = urbanFactor * 0.02;
+        const schoolsPerKm2 = urbanFactor * 0.15;
+        const transportPerKm2 = urbanFactor * 0.01;
+        const powerPerKm2 = urbanFactor * 0.005;
+        
+        const hospitals = Math.round(affectedArea * hospitalsPerKm2);
+        const schools = Math.round(affectedArea * schoolsPerKm2);
+        const transport = Math.round(affectedArea * transportPerKm2);
+        const power = Math.round(affectedArea * powerPerKm2);
+        
+        return {
+            hospitals: hospitals,
+            schools: schools,
+            transport: transport,
+            power: power,
+            details: {
+                hospitalBeds: Math.round(hospitals * 200),
+                schoolCapacity: Math.round(schools * 800),
+                transportCapacity: Math.round(transport * 50000),
+                powerCapacity: Math.round(power * 500)
+            }
+        };
+    },
+
+    calculateEnvironmentImpact(results, countryData = null) {
+        const radiationArea = results.areas.radiation;
+        const thermalArea = results.areas.thermal;
+        const climate = countryData?.climate || 'temperate';
+        
+        let falloutMultiplier = 1;
+        if (climate === 'arid') falloutMultiplier = 1.3;
+        else if (climate === 'tropical') falloutMultiplier = 0.7;
+        else if (climate === 'cold') falloutMultiplier = 1.1;
+        
+        const falloutArea = radiationArea * falloutMultiplier;
+        const landContamination = radiationArea * 0.8;
+        const waterAffected = radiationArea * 50;
+        const carbonEmission = thermalArea * 1000;
+        
+        return {
+            falloutArea: falloutArea,
+            landContamination: landContamination,
+            waterAffected: waterAffected,
+            carbonEmission: carbonEmission,
+            radiationLevel: Math.min(100, (radiationArea / 100) * 100),
+            landPollution: Math.min(100, (landContamination / 500) * 100),
+            waterPollution: Math.min(100, (waterAffected / 10000) * 100),
+            airPollution: Math.min(100, (thermalArea / 50) * 100),
+            ecologyDamage: Math.min(100, (radiationArea + thermalArea) / 100)
+        };
+    },
+
+    calculateHealthImpact(results, casualties, countryData = null) {
+        const radiationArea = results.areas.radiation;
+        const thermalArea = results.areas.thermal;
+        const density = casualties.effectiveDensity || 1000;
+        const medicalCapacity = countryData?.medicalCapacity || 0.5;
+        
+        const acuteRadiation = Math.round(radiationArea * density * 0.3);
+        const burns = Math.round(thermalArea * density * 0.25);
+        const trauma = casualties.injuries * 0.4;
+        const psychological = Math.round((casualties.deaths + casualties.injuries) * 2);
+        const homeless = Math.round(results.areas.moderateBlast * density * 0.6);
+        
+        const cancerBase = radiationArea * density * 0.1;
+        const geneticBase = radiationArea * density * 0.02;
+        const chronicBase = radiationArea * density * 0.15;
+        
+        return {
+            acuteRadiation: acuteRadiation,
+            burns: Math.round(burns),
+            trauma: Math.round(trauma),
+            psychological: psychological,
+            homeless: homeless,
+            cancerProjection: [
+                Math.round(cancerBase * 0.2),
+                Math.round(cancerBase * 0.4),
+                Math.round(cancerBase * 0.7),
+                Math.round(cancerBase * 0.9),
+                Math.round(cancerBase)
+            ],
+            geneticProjection: [
+                Math.round(geneticBase * 0.1),
+                Math.round(geneticBase * 0.2),
+                Math.round(geneticBase * 0.4),
+                Math.round(geneticBase * 0.6),
+                Math.round(geneticBase)
+            ],
+            chronicProjection: [
+                Math.round(chronicBase * 0.3),
+                Math.round(chronicBase * 0.5),
+                Math.round(chronicBase * 0.7),
+                Math.round(chronicBase * 0.85),
+                Math.round(chronicBase)
+            ]
+        };
+    },
+
+    calculateGDPLoss(results, casualties, countryData = null) {
+        const gdpPerCapita = countryData?.gdpPerCapita || 10000;
+        const affectedPopulation = casualties.deaths + casualties.injuries;
+        const affectedArea = results.areas.moderateBlast;
+        
+        const productivityLoss = affectedPopulation * gdpPerCapita * 0.5;
+        const infrastructureLoss = affectedArea * (countryData?.gdpPerCapita || 10000) * 100;
+        const businessLoss = affectedArea * 50000000;
+        
+        const directLoss = productivityLoss + infrastructureLoss * 0.3;
+        const indirectLoss = businessLoss + infrastructureLoss * 0.2;
+        
+        return {
+            direct: Math.round(directLoss),
+            indirect: Math.round(indirectLoss),
+            total: Math.round(directLoss + indirectLoss),
+            gdpPerCapitaLoss: Math.round((directLoss + indirectLoss) / Math.max(1, affectedPopulation))
+        };
     }
 };
 

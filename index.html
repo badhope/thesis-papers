@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 </head>
 <body>
     <div id="map"></div>
@@ -42,21 +43,82 @@
             <div class="form-group">
                 <label>武器类型</label>
                 <select id="weaponType">
-                    <option value="littleBoy">小男孩 (15kt)</option>
-                    <option value="fatMan">胖子 (21kt)</option>
-                    <option value="w76">W76 (100kt)</option>
-                    <option value="trident">三叉戟II (100kt)</option>
-                    <option value="w87">W87 (300kt)</option>
-                    <option value="df41">东风-41 (300kt)</option>
-                    <option value="bulava">布拉瓦 (150kt)</option>
-                    <option value="b83">B83 (1.2Mt)</option>
-                    <option value="tsar">沙皇炸弹 (50Mt)</option>
-                    <option value="custom">自定义</option>
+                    <optgroup label="📜 历史核武器">
+                        <option value="littleBoy">小男孩 (15kt, 1945)</option>
+                        <option value="fatMan">胖子 (21kt, 1945)</option>
+                        <option value="rds1">RDS-1 (22kt, 1949)</option>
+                        <option value="ivyMike">常春藤-麦克 (10.4Mt, 1952)</option>
+                        <option value="castleBravo">城堡行动-喝彩 (15Mt, 1954)</option>
+                        <option value="rds37">RDS-37 (1.6Mt, 1955)</option>
+                        <option value="tsar">沙皇炸弹 (50Mt, 1961)</option>
+                    </optgroup>
+                    <optgroup label="🇺🇸 美国">
+                        <option value="w76" selected>W76 (100kt, 1978)</option>
+                        <option value="w78">W78 (335kt, 1979)</option>
+                        <option value="w87">W87 (300kt, 1986)</option>
+                        <option value="w88">W88 (475kt, 1989)</option>
+                        <option value="b61">B61 (50kt, 1968)</option>
+                        <option value="b83">B83 (1.2Mt, 1983)</option>
+                        <option value="w80">W80 (150kt, 1982)</option>
+                        <option value="minuteman">民兵III (300kt, 1970)</option>
+                        <option value="trident">三叉戟II (100kt, 1990)</option>
+                        <option value="peacekeeper">和平卫士 (300kt, 1986)</option>
+                    </optgroup>
+                    <optgroup label="🇷🇺 俄罗斯/苏联">
+                        <option value="ss18">SS-18 撒旦 (24Mt, 1974)</option>
+                        <option value="topolM">白杨-M (800kt, 1997)</option>
+                        <option value="bulava">布拉瓦 (150kt, 2013)</option>
+                        <option value="yars">亚尔斯 (500kt, 2010)</option>
+                        <option value="sarmat">萨尔马特 (5Mt, 2022)</option>
+                    </optgroup>
+                    <optgroup label="🇨🇳 中国">
+                        <option value="df41">东风-41 (300kt, 2019)</option>
+                        <option value="df31">东风-31AG (150kt, 2017)</option>
+                        <option value="df5">东风-5B (500kt, 2015)</option>
+                        <option value="jl2">巨浪-2 (250kt, 2015)</option>
+                        <option value="q5">强-5核弹 (20kt, 1972)</option>
+                    </optgroup>
+                    <optgroup label="🇬🇧 英国">
+                        <option value="blueDanube">蓝多瑙河 (15kt, 1952)</option>
+                        <option value="we177">WE.177 (450kt, 1966)</option>
+                        <option value="tridentUK">三叉戟(英) (100kt, 1994)</option>
+                    </optgroup>
+                    <optgroup label="🇫🇷 法国">
+                        <option value="an52">AN-52 (60kt, 1974)</option>
+                        <option value="tn75">TN-75 (100kt, 1997)</option>
+                        <option value="canopus">老人星 (2.6Mt, 1968)</option>
+                    </optgroup>
+                    <optgroup label="🇮🇳 印度">
+                        <option value="agni5">烈火-5 (250kt, 2018)</option>
+                        <option value="agni3">烈火-3 (60kt, 2011)</option>
+                    </optgroup>
+                    <optgroup label="🇵🇰 巴基斯坦">
+                        <option value="ghauri">高里 (30kt, 1998)</option>
+                        <option value="shaheen2">沙欣-2 (35kt, 2004)</option>
+                    </optgroup>
+                    <optgroup label="🇰🇵 朝鲜">
+                        <option value="hwasong15">火星-15 (150kt, 2017)</option>
+                        <option value="hwasong17">火星-17 (250kt, 2022)</option>
+                    </optgroup>
+                    <optgroup label="🔬 战术核武器">
+                        <option value="davyCrockett">大卫·克罗克特 (0.02kt, 1961)</option>
+                        <option value="sADM">SADM背包核弹 (0.01kt, 1964)</option>
+                        <option value="w54">W54微型弹头 (0.001kt, 1961)</option>
+                    </optgroup>
+                    <optgroup label="⚙️ 自定义">
+                        <option value="custom">自定义当量</option>
+                    </optgroup>
                 </select>
             </div>
             <div class="form-group" id="customYieldGroup" style="display:none;">
-                <label>当量 (kt)</label>
-                <input type="number" id="customYield" min="1" max="100000" value="100">
+                <label>自定义当量 (千吨 kt)</label>
+                <input type="number" id="customYield" min="0.001" max="100000" step="0.001" value="100" placeholder="输入当量值">
+                <small style="color: #888; font-size: 0.75rem; display: block; margin-top: 4px;">
+                    范围: 0.001kt (1吨) - 100,000kt (100Mt)
+                </small>
+            </div>
+            <div class="form-group" id="weaponInfo" style="display:none; background: rgba(255,100,100,0.1); padding: 8px; border-radius: 6px; font-size: 0.8rem;">
+                <div id="weaponDescription" style="color: #ff9999;"></div>
             </div>
             <div class="form-group">
                 <label>爆炸高度</label>
@@ -125,42 +187,159 @@
             <span class="close-btn" onclick="toggleTool('results')">✕</span>
         </div>
         <div class="panel-body">
-            <div class="result-grid">
-                <div class="result-item">
-                    <span class="result-label">火球半径</span>
-                    <span class="result-value" id="fireballRadius">-</span>
-                    <span class="result-unit">km</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">重度破坏</span>
-                    <span class="result-value" id="heavyBlastRadius">-</span>
-                    <span class="result-unit">km</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">中度破坏</span>
-                    <span class="result-value" id="moderateBlastRadius">-</span>
-                    <span class="result-unit">km</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">热辐射</span>
-                    <span class="result-value" id="thermalRadius">-</span>
-                    <span class="result-unit">km</span>
-                </div>
+            <div class="result-tabs">
+                <div class="tab-btn active" data-tab="basic" onclick="switchResultTab('basic')">📈 基础</div>
+                <div class="tab-btn" data-tab="economic" onclick="switchResultTab('economic')">💰 经济</div>
+                <div class="tab-btn" data-tab="infrastructure" onclick="switchResultTab('infrastructure')">🏗️ 设施</div>
+                <div class="tab-btn" data-tab="environment" onclick="switchResultTab('environment')">🌿 环境</div>
+                <div class="tab-btn" data-tab="health" onclick="switchResultTab('health')">🏥 健康</div>
             </div>
-            <div class="casualty-section">
-                <div class="casualty-item death">
-                    <span class="casualty-label">💀 死亡人数</span>
-                    <span class="casualty-value" id="deaths">-</span>
+            
+            <div class="tab-content active" id="tab-basic">
+                <div class="result-grid">
+                    <div class="result-item">
+                        <span class="result-label">火球半径</span>
+                        <span class="result-value" id="fireballRadius">-</span>
+                        <span class="result-unit">km</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">重度破坏</span>
+                        <span class="result-value" id="heavyBlastRadius">-</span>
+                        <span class="result-unit">km</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">中度破坏</span>
+                        <span class="result-value" id="moderateBlastRadius">-</span>
+                        <span class="result-unit">km</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">热辐射</span>
+                        <span class="result-value" id="thermalRadius">-</span>
+                        <span class="result-unit">km</span>
+                    </div>
                 </div>
-                <div class="casualty-item injury">
-                    <span class="casualty-label">🤕 受伤人数</span>
-                    <span class="casualty-value" id="injuries">-</span>
+                <div class="casualty-section">
+                    <div class="casualty-item death">
+                        <span class="casualty-label">💀 死亡人数</span>
+                        <span class="casualty-value" id="deaths">-</span>
+                    </div>
+                    <div class="casualty-item injury">
+                        <span class="casualty-label">🤕 受伤人数</span>
+                        <span class="casualty-value" id="injuries">-</span>
+                    </div>
                 </div>
+                <div class="chart-container" id="casualtyPieChart"></div>
+                <div class="chart-container" id="radiusBarChart"></div>
             </div>
-            <div class="extra-info">
-                <div class="info-row"><span>有效密度:</span><span id="effectiveDensity">-</span></div>
-                <div class="info-row"><span>经济损失:</span><span id="economicLoss">-</span></div>
-                <div class="info-row"><span>恢复时间:</span><span id="recoveryTime">-</span></div>
+            
+            <div class="tab-content" id="tab-economic">
+                <div class="stat-card highlight">
+                    <div class="stat-title">💵 GDP损失总额</div>
+                    <div class="stat-value" id="gdpLossTotal">-</div>
+                </div>
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">直接经济损失</span>
+                        <span class="stat-value" id="directLoss">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">间接经济损失</span>
+                        <span class="stat-value" id="indirectLoss">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">人均GDP损失</span>
+                        <span class="stat-value" id="gdpPerCapitaLoss">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">恢复时间</span>
+                        <span class="stat-value" id="recoveryTime">-</span>
+                    </div>
+                </div>
+                <div class="chart-container" id="economicBarChart"></div>
+                <div class="chart-container" id="recoveryTimelineChart"></div>
+            </div>
+            
+            <div class="tab-content" id="tab-infrastructure">
+                <div class="stat-card">
+                    <div class="stat-title">🏗️ 基础设施影响</div>
+                </div>
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">医院/医疗设施</span>
+                        <span class="stat-value" id="hospitalsAffected">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">学校</span>
+                        <span class="stat-value" id="schoolsAffected">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">交通枢纽</span>
+                        <span class="stat-value" id="transportAffected">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">电力设施</span>
+                        <span class="stat-value" id="powerAffected">-</span>
+                    </div>
+                </div>
+                <div class="chart-container" id="infrastructureChart"></div>
+                <div class="impact-details" id="infrastructureDetails"></div>
+            </div>
+            
+            <div class="tab-content" id="tab-environment">
+                <div class="stat-card">
+                    <div class="stat-title">🌿 环境影响</div>
+                </div>
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">放射性沉降面积</span>
+                        <span class="stat-value" id="falloutArea">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">土地污染面积</span>
+                        <span class="stat-value" id="landContamination">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">水源影响人口</span>
+                        <span class="stat-value" id="waterAffected">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">碳排放当量</span>
+                        <span class="stat-value" id="carbonEmission">-</span>
+                    </div>
+                </div>
+                <div class="chart-container" id="environmentChart"></div>
+                <div class="chart-container" id="falloutMap"></div>
+            </div>
+            
+            <div class="tab-content" id="tab-health">
+                <div class="stat-card">
+                    <div class="stat-title">🏥 健康影响</div>
+                </div>
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">急性辐射病</span>
+                        <span class="stat-value" id="acuteRadiation">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">长期癌症增加</span>
+                        <span class="stat-value" id="cancerIncrease">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">心理创伤人数</span>
+                        <span class="stat-value" id="psychologicalTrauma">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">无家可归人数</span>
+                        <span class="stat-value" id="homeless">-</span>
+                    </div>
+                </div>
+                <div class="chart-container" id="healthChart"></div>
+                <div class="chart-container" id="longTermHealthChart"></div>
+            </div>
+            
+            <div class="result-actions">
+                <button class="action-btn" onclick="exportReport()">📄 导出报告</button>
+                <button class="action-btn" onclick="shareResult()">🔗 分享</button>
             </div>
         </div>
     </div>
@@ -169,22 +348,7 @@
         <span id="toastLat">-</span>, <span id="toastLng">-</span>
     </div>
 
-    <div class="map-legend">
-        <div class="legend-item"><span class="legend-dot" style="background:#ff0000"></span>火球</div>
-        <div class="legend-item"><span class="legend-dot" style="background:#ff4500"></span>重度</div>
-        <div class="legend-item"><span class="legend-dot" style="background:#ff8c00"></span>中度</div>
-        <div class="legend-item"><span class="legend-dot" style="background:#ffd700"></span>轻度</div>
-        <div class="legend-item"><span class="legend-dot" style="background:#ff6347"></span>热辐射</div>
-    </div>
-
-    <div class="explosion-overlay" id="explosionOverlay">
-        <div class="explosion-flash"></div>
-        <div class="explosion-ring"></div>
-        <div class="shockwave"></div>
-        <div class="explosion-particles" id="explosionParticles"></div>
-    </div>
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <script>
         function toggleTool(tool) {
@@ -203,15 +367,22 @@
             const panel = document.getElementById(panels[tool]);
             const btn = document.getElementById(btns[tool]);
             
+            if (!panel || !btn) {
+                console.error('Panel or button not found for tool:', tool);
+                return;
+            }
+            
             if (panel.classList.contains('show')) {
                 panel.classList.remove('show');
                 btn.classList.remove('active');
             } else {
                 Object.values(panels).forEach(p => {
-                    document.getElementById(p).classList.remove('show');
+                    const el = document.getElementById(p);
+                    if (el) el.classList.remove('show');
                 });
                 Object.values(btns).forEach(b => {
-                    document.getElementById(b).classList.remove('active');
+                    const el = document.getElementById(b);
+                    if (el) el.classList.remove('active');
                 });
                 panel.classList.add('show');
                 btn.classList.add('active');
@@ -219,75 +390,109 @@
         }
 
         function triggerExplosion() {
-            const lat = document.getElementById('targetLat').textContent;
-            const lng = document.getElementById('targetLng').textContent;
+            const latEl = document.getElementById('targetLat');
+            const lngEl = document.getElementById('targetLng');
+            
+            if (!latEl || !lngEl) {
+                console.error('Target coordinate elements not found');
+                return;
+            }
+            
+            const lat = latEl.textContent;
+            const lng = lngEl.textContent;
             
             if (lat === '-' || lng === '-') {
                 alert('请先选择目标位置！');
                 return;
             }
             
-            playExplosionEffect();
-            
-            if (typeof App !== 'undefined') {
+            if (typeof App !== 'undefined' && App.runSimulation) {
                 App.runSimulation();
+            } else {
+                console.error('App not available');
             }
-            
-            const fireBtn = document.getElementById('fireBtn');
-            fireBtn.classList.add('firing');
-            setTimeout(() => fireBtn.classList.remove('firing'), 1000);
-        }
-
-        function playExplosionEffect() {
-            const overlay = document.getElementById('explosionOverlay');
-            const particlesContainer = document.getElementById('explosionParticles');
-            
-            overlay.style.opacity = '1';
-            
-            particlesContainer.innerHTML = '';
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                const angle = (Math.random() * 360) * (Math.PI / 180);
-                const distance = 100 + Math.random() * 300;
-                const x = Math.cos(angle) * distance;
-                const y = Math.sin(angle) * distance;
-                const delay = Math.random() * 0.3;
-                const duration = 1.5 + Math.random() * 1;
-                
-                particle.style.cssText = `
-                    left: 50%;
-                    top: 50%;
-                    animation-delay: ${delay}s;
-                    animation-duration: ${duration}s;
-                    --tx: ${x}px;
-                    --ty: ${y}px;
-                `;
-                particle.style.animation = `particle-fly-custom ${duration}s ease-out ${delay}s forwards`;
-                particlesContainer.appendChild(particle);
-            }
-            
-            setTimeout(() => {
-                overlay.style.opacity = '0';
-            }, 3000);
         }
 
         function updateTargetCoords(lat, lng, name) {
-            document.getElementById('targetLat').textContent = lat.toFixed(4);
-            document.getElementById('targetLng').textContent = lng.toFixed(4);
-            document.getElementById('targetName').textContent = name || '自定义位置';
+            const latEl = document.getElementById('targetLat');
+            const lngEl = document.getElementById('targetLng');
+            const nameEl = document.getElementById('targetName');
+            
+            if (latEl) latEl.textContent = lat.toFixed(4);
+            if (lngEl) lngEl.textContent = lng.toFixed(4);
+            if (nameEl) nameEl.textContent = name || '自定义位置';
             
             const toast = document.getElementById('coordToast');
-            document.getElementById('toastLat').textContent = lat.toFixed(4);
-            document.getElementById('toastLng').textContent = lng.toFixed(4);
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2000);
+            const toastLat = document.getElementById('toastLat');
+            const toastLng = document.getElementById('toastLng');
+            
+            if (toast && toastLat && toastLng) {
+                toastLat.textContent = lat.toFixed(4);
+                toastLng.textContent = lng.toFixed(4);
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2000);
+            }
         }
         window.updateTargetCoords = updateTargetCoords;
+        
+        function switchResultTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                if (tab.dataset.tab === tabName) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+            
+            contents.forEach(content => {
+                if (content.id === 'tab-' + tabName) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+        }
+        window.switchResultTab = switchResultTab;
+        
+        function exportReport() {
+            if (window.App && window.App.lastSimulationResult) {
+                const result = window.App.lastSimulationResult;
+                const report = JSON.stringify(result, null, 2);
+                const blob = new Blob([report], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `nuclear_simulation_${Date.now()}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            } else {
+                alert('没有可导出的模拟结果');
+            }
+        }
+        window.exportReport = exportReport;
+        
+        function shareResult() {
+            if (navigator.share && window.App && window.App.lastSimulationResult) {
+                const result = window.App.lastSimulationResult;
+                navigator.share({
+                    title: '核武器模拟结果',
+                    text: `目标: ${result.targetName}, 当量: ${result.yieldKt}kt`,
+                    url: window.location.href
+                }).catch(err => console.log('Share failed:', err));
+            } else {
+                alert('分享功能不可用或没有模拟结果');
+            }
+        }
+        window.shareResult = shareResult;
     </script>
     <script src="country-data.js"></script>
     <script src="cities.js"></script>
+    <script src="military-bases.js"></script>
     <script src="nuclear.js"></script>
+    <script src="charts.js"></script>
     <script src="map.js"></script>
     <script src="app.js"></script>
 </body>
