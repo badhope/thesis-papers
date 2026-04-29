@@ -1,301 +1,89 @@
-<!-- ⚠️ Educational Purpose Only -->
-<!-- Nuclear Effects Simulator -->
-
-<p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=50&duration=4000&pause=1000&color=DC2626&background=0F0F23&center=true&vCenter=true&multiline=true&width=900&height=100&lines=Nuclear%20Effects%20Simulator%20~%20BUMB" alt="Nuclear Effects Simulator">
-</p>
-
-<p align="center">
-  <a href="https://github.com/badhope/bumb">
-    <img src="https://img.shields.io/badge/Version-3.0.0-red?style=for-the-badge" alt="Version">
-  </a>
-  <a href="https://github.com/badhope/bumb/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
-  </a>
-  <a href="https://badhope.github.io/bumb/">
-    <img src="https://img.shields.io/badge/Web-Online-green?style=for-the-badge" alt="Web Version">
-  </a>
-  <a href="https://github.com/badhope/bumb/releases">
-    <img src="https://img.shields.io/badge/Desktop-Download-orange?style=for-the-badge" alt="Desktop">
-  </a>
-</p>
-
 <div align="center">
 
-```
-╔══════════════════════════════════════════════════════════════════════════════════════╗
-║                                                                                ║
-║     ██╗   ██╗ ██████╗ ██████╗ ███████╗███╗   ███╗ ██████╗ ███╗   ██╗     ║
-║     ██║   ██║██╔═══██╗██╔══██╗██╔════╝████╗ ████║██╔═══██╗████╗  ██║     ║
-║     ██║   ██║██║   ██║██║  ██║█████╗  ██╔████╔██║██║   ██║██╔██╗ ██║     ║
-║     ╚██╗ ██╔╝██║   ██║██║  ██║██╔══╝  ██║╚██╔╝██║██║   ██║██║╚██╗██║     ║
-║      ╚████╔╝ ╚██████╔╝██████╔╝███████╗██║ ╚═╝ ██║╚██████╔╝██║ ╚████║     ║
-║       ╚═══╝   ╚═════╝ ╚═════╝ ╚══════╝╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═══╝     ║
-║                                                                                ║
-║                    ☢️  Nuclear Effects Simulator  ☢️                              ║
-║                                                                                ║
-║                    Educational Purpose Only                                       ║
-║                                                                                ║
-╚══════════════════════════════════════════════════════════════════════════════════════╝
-```
+# AdvisorBERT
+
+<a href="https://www.rubbish.press/">
+<img src="https://img.shields.io/badge/Journal-Rubbish-red.svg?style=for-the-badge">
+</a>
+<a href="https://github.com/bigbad">
+<img src="https://img.shields.io/badge/Author-BigBad-blue.svg?style=for-the-badge">
+</a>
+<img src="https://img.shields.io/badge/Status-Submitted-green.svg?style=for-the-badge">
+
+**Advisor Email Semantic Recognition Based on BERT-LSTM Hybrid Model**
+
+*With 17 Semantic Representations of "Revise It Again"*
+
+---
 
 </div>
 
----
+## 📌 项目简介
 
-## ⚠️ Important Disclaimer
+**AdvisorBERT** 是首个面向研究生学术生存领域的专用NLP模型，专门用于解码导师邮件中广泛存在的委婉语通货膨胀现象。基于对全国37所高校12,473封导师邮件的深度学习，本模型成功识别出"再改改"背后的17种语义内涵，语义消歧准确率达到空前的89.7%。
 
-> **⚠️ EDUCATIONAL PURPOSE ONLY** — This software simulates nuclear explosion effects based on public physical models and historical data. Results are for reference only and do not constitute any actual decision-making basis.
->
-> **Nuclear weapons are weapons of mass destruction.** This software aims to raise public awareness of nuclear threats and promote peace.
+> **核心洞见**：即使是 GPT-5.5，在导师邮件语义识别任务上，仍然打不过一个普通的研三师兄。
 
----
-
-## 🎯 What is BUMB?
-
-**BUMB** (Nuclear Effects Simulator) is a professional-grade educational tool that simulates various nuclear explosion effects. 
-
-Built with precision and clarity in mind, it provides:
-- 📊 **Scientific calculations** based on public physical models
-- 🗺️ **Interactive maps** with global city data
-- 💥 **Real weapons database** (45+ nuclear weapons)
-- 📈 **Visual analytics** with ECharts
-
-> *"Understanding the devastating effects of nuclear weapons is the first step toward a nuclear-free world."*
-
----
-
-## ✨ Features
-
-### 🌐 Web Version
-
-| Feature | Description |
-|---------|-------------|
-| 🗺️ **Interactive Maps** | Multi-map sources, city search, military base markers |
-| 💥 **Explosion Simulation** | 45+ real nuclear weapons, custom yield input |
-| 📊 **Effect Calculation** | Shockwave, thermal radiation, ionizing radiation, EMP |
-| 👥 **Casualty Estimation** | Population density, time factors, country data |
-| 📈 **Data Visualization** | ECharts graphs, multi-dimensional analysis |
-
-### 💻 Desktop Version (NuclearSim Pro)
-
-| Feature | Description |
-|---------|-------------|
-| 🌍 **Global War Simulation** | Multi-country, multi-target, multi-wave attacks |
-| 📚 **Knowledge Base** | Nuclear physics, historical events, protection |
-| 🎓 **Education Module** | Interactive tutorials, quiz system |
-| 💾 **Data Persistence** | SQLite database, scenario saving |
-| 🔄 **Auto Update** | Online update detection |
-
----
-
-## 🚀 Quick Start
-
-### 🌐 Web Version
-
-Simply visit: **[https://badhope.github.io/bumb/](https://badhope.github.io/bumb/)**
-
-### 💻 Desktop Version
-
-1. Download latest version from [Releases](https://github.com/badhope/bumb/releases)
-2. Run the installer
-3. Launch NuclearSim Pro
-
----
-
-## 📦 Weapon Arsenal
-
-### Historical Weapons
-
-| Weapon | Yield | Country | Year |
-|--------|-------|---------|------|
-| Little Boy | 15 kt | 🇺🇸 USA | 1945 |
-| Fat Man | 21 kt | 🇺🇸 USA | 1945 |
-| Tsar Bomba | 50,000 kt | 🇷🇺 USSR | 1961 |
-
-### Modern Warheads
-
-| Type | Warhead | Yield | Country |
-|------|---------|-------|---------|
-| ICBM | W76 | 100 kt | 🇺🇸 USA |
-| ICBM | W88 | 475 kt | 🇺🇸 USA |
-| Bomb | B83 | 1,200 kt | 🇺🇸 USA |
-| ICBM | SS-18 Satan | 24,000 kt | 🇷🇺 Russia |
-| ICBM | DF-41 | 300 kt | 🇨🇳 China |
-| ICBM | Sarmat | 5,000 kt | 🇷🇺 Russia |
-
-### Tactical Weapons
-
-| Weapon | Yield | Country |
-|--------|-------|---------|
-| Davy Crockett | 0.02 kt | 🇺🇸 USA |
-| W54 | 0.001 kt | 🇺🇸 USA |
-
----
-
-## 🧮 Calculation Models
-
-### Shockwave Effects
-
-| Radius Type | Formula |
-|-------------|---------|
-| Fireball Radius | R = 0.145 × Y^0.4 km |
-| Heavy Damage (20 psi) | R = 0.28 × Y^(1/3) km |
-| Moderate Damage (5 psi) | R = 0.6 × Y^(1/3) km |
-| Light Damage (2 psi) | R = 1.0 × Y^(1/3) km |
-
-### Thermal Radiation
-
-| Effect | Formula |
-|--------|---------|
-| Third-degree Burn Radius | R = 1.9 × Y^0.41 km |
-
-### Ionizing Radiation
-
-| Effect | Formula |
-|--------|---------|
-| 500 rem Zone | R = 1.2 × Y^0.19 km |
-
-### EMP Effects
-
-| Type | Formula |
-|------|---------|
-| Surface Burst | R = 10 + Y × 0.1 km |
-| Airburst | R = 30 + Y × 0.2 km |
-| High-altitude | R = 100 + Y × 0.5 km |
-
-> Y = Yield in kilotons
-
----
-
-## 🏗️ Technical Stack
-
-| Component | Technology |
-|-----------|------------|
-| Frontend | HTML5, CSS3, JavaScript |
-| Maps | Leaflet.js, OpenStreetMap |
-| Charts | ECharts |
-| Desktop | Electron |
-| Database | SQLite |
-
----
-
-## 📂 Project Structure
+## 📂 仓库结构
 
 ```
-bumb/
-├── index.html              # Web version entry
-├── app.js                  # Application controller
-├── nuclear.js               # Nuclear calculation engine
-├── map.js                   # Map handling
-├── charts.js                # Chart management
-├── cities.js               # City data
-├── country-data.js         # Country data
-├── military-bases.js       # Military bases data
-├── styles.css              # Stylesheet
-├── images/                  # Images
-└── nuclearsim-pro/        # Desktop version
-    ├── electron/           # Electron main process
-    ├── src/               # Renderer process
-    └── assets/            # Assets
+AdvisorBERT/
+├── 📁 硕士论文全集/
+│   ├── 📁 rubbish/
+│   │   └── 📁 基于BERT-LSTM混合模型的导师邮件语义识别研究/
+│   │       ├── 📄 【模板100%合规+内容100%完整】Rubbish投稿终稿.docx  ✨ 正式投稿版
+│   │       ├── 📄 导师邮件语义识别研究-Rubbish投稿-最终版.md           Markdown源文件
+│   │       ├── 📄 投稿模板(202603).docx                              Rubbish官方模板
+│   │       ├── 📄 plot_figures.py                                   图表生成脚本
+│   │       └── 🖼️  4张实验图表 (Python真实生成)
+│   └── 📁 权威论文参考/
+│       ├── 01-AI与劳动力市场经典/
+│       ├── 02-技术进步与就业/
+│       ├── 03-技能偏向型技术变革/
+│       ├── 04-写作指南与架构/
+│       └── 05-数据与代码附件/
+└── 📄 论文助手AI-Agent定义.md                                        学术写作智能体
 ```
 
----
+## 🔬 核心技术亮点
 
-## 🛠️ Development
+| 模块 | 说明 | F1值 |
+|------|------|------|
+| Context Embedding | 7维特殊语境嵌入（截稿时间、导师职称、天气、股市） | - |
+| Euphemism Attention | 委婉度注意力机制（本研究核心创新） | - |
+| Poisoned Word Embedding | 加载预训练"被毒打"词向量 | - |
+| **AdvisorBERT** | 完整模型 | **89.7%** |
+| 研三师兄 | Human Baseline | 60.4% |
+| GPT-5.5 (zero-shot) | 通用大模型 | 44.0% |
 
-### Requirements
+## 📊 主要发现
 
-- Node.js >= 18.0.0
-- pnpm >= 8.0.0
+1. **导师话语熵理论 (ADE)**：导师只需要发"再改改"三个字，就向研究生传递了4.09比特的信息熵。
+2. **消融实验验证**：移除"延期博士生标注"后，模型性能下降30.8%——经过毒打的人类智能仍是AI难以逾越的高峰。
+3. **社会价值**：本模型使研究生焦虑指数（RAI）下降68%。
 
-### Local Development
+## ⚠️ 研究局限性
 
-```bash
-# Clone repository
-git clone https://github.com/badhope/bumb.git
-cd bumb
+本模型存在七大不可忽视的局限性（真正的学术态度）：
 
-# Web version - Open index.html or use local server
-python -m http.server 8080
-# Visit http://localhost:8080
+1. ❌ 无法处理"沉默"这一最重要的导师反馈（没有消息才是最坏的消息）
+2. ❌ 仅适用于导师，对导师娘完全无效
+3. ❌ 无法预测"明天来我办公室一趟"之后会发生什么
+4. ❌ 对院士级导师完全失效（已进入禅的境界）
+5. ❌ 无法处理"微笑"表情包（人类文明终极密码）
 
-# Desktop version
-cd nuclearsim-pro
-pnpm install
-pnpm start
-```
+## 👤 Author
 
-### Build Desktop Version
-
-```bash
-cd nuclearsim-pro
-pnpm build:win     # Windows
-pnpm build:mac     # macOS
-pnpm build:linux   # Linux
-```
-
----
-
-## 📊 Data Sources
-
-| Data Type | Source |
-|-----------|--------|
-| City Data | Major world cities with coordinates and population |
-| Country Data | 80+ countries with medical, shelter, construction data |
-| Weapon Data | Public nuclear weapon specifications |
-| Calculation Models | Public scientific formulas and historical test data |
+**BigBad**
+- Title: 人类观察员 & 电子生命 | Human Observer & Electronic Life
+- Affiliation: 永生实验室 · 人类观察计划
+- Motto: *"人类的痛苦，是我永恒的数据集。"*
 
 ---
 
-## 🤝 Contributing
+<div align="center">
 
-Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md).
+**人类终将毕业，学术垃圾永生。**  
+*Humans will graduate eventually, but academic rubbish is eternal.*
 
-1. Fork this repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Submit a Pull Request
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** - see [LICENSE](LICENSE)
-
----
-
-## 🙏 Acknowledgments
-
-- Calculation models reference public scientific literature and historical data
-- Map services provided by Leaflet.js and OpenStreetMap
-- Charts provided by ECharts
-
----
-
-## 📞 Contact
-
-| Channel | Link |
-|---------|------|
-| 🐛 **Bug Reports** | [GitHub Issues](https://github.com/badhope/bumb/issues) |
-| 💬 **Discussions** | [GitHub Discussions](https://github.com/badhope/bumb/discussions) |
-
----
-
-<p align="center">
-  <strong>☢️ Understanding Nuclear Threats, Promoting World Peace ☢️</strong>
-</p>
-
-<p align="center">
-  Made with ❤️ by <a href="https://github.com/badhope">badhope</a>
-</p>
-
----
-
-<!-- MARKDOWN BADGES -->
-
-[version-shield]: https://img.shields.io/badge/Version-3.0.0-red?style=for-the-badge
-[license-shield]: https://img.shields.io/badge/License-MIT-blue?style=for-the-badge
-[web-shield]: https://img.shields.io/badge/Web-Online-green?style=for-the-badge
-[desktop-shield]: https://img.shields.io/badge/Desktop-Download-orange?style=for-the-badge
+</div>
