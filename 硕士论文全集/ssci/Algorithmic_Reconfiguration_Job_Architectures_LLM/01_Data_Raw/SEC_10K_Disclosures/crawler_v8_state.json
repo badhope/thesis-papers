@@ -1,0 +1,10 @@
+{
+  "saved_at": "2026-04-30T22:44:04.818118",
+  "real_done_count": 10821,
+  "stats": {
+    "FAILED": 578,
+    "SUCCESS": 5261,
+    "WITH_HC": 4448,
+    "NO_START": 1261
+  }
+}
