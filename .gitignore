@@ -1,0 +1,41 @@
+# Large raw data files
+硕士论文全集/ssci/Algorithmic_Reconfiguration_Job_Architectures_LLM/01_Data_Raw/SEC_10K_Disclosures/item1_extracted/
+硕士论文全集/ssci/Algorithmic_Reconfiguration_Job_Architectures_LLM/01_Data_Raw/SEC_10K_Disclosures/item1_extracted_final/
+硕士论文全集/ssci/Algorithmic_Reconfiguration_Job_Architectures_LLM/01_Data_Raw/SEC_10K_Disclosures/crawler_*.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.log
+
+# Large cache files
+硕士论文全集/ssci/Algorithmic_Reconfiguration_Job_Architectures_LLM/02_Data_Clean/Merged_Data/sec_xbrl_cache/
+
+# Old manuscript versions
+硕士论文全集/ssci/Algorithmic_Reconfiguration_Manuscript_v1.docx
